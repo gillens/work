@@ -1,0 +1,15 @@
+#!/bin/bash
+red=`tput setaf 1`
+green=`tput setaf 2`
+reset=`tput sgr0`
+for computer in $(cut -d ':' -f1 dummyFile); do
+	ping -c 2 -t 5 $computer > /dev/null
+	result=$?
+	status=""
+	if [ $result = "0" ]; then
+		status="${green}online ${reset}"
+	else
+		status="${red}offline ${reset}"
+	fi
+	echo -e "$computer: $status"	
+done
