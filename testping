@@ -2,6 +2,8 @@
 red=`tput setaf 1`
 green=`tput setaf 2`
 reset=`tput sgr0`
+
+#loop through first words of each line
 for computer in $(cut -d ':' -f1 dummyFile); do
 	ping -c 2 -t 5 $computer > /dev/null
 	result=$?
