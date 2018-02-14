@@ -5,7 +5,7 @@ reset=`tput sgr0`
 
 #loop through first words of each line
 for computer in $(cut -d ':' -f1 dummyFile); do
-	ping -c 2 -t 5 $computer > /dev/null
+	ping -c 1 -t 1 $computer > /dev/null
 	result=$?
 	status=""
 	if [ $result = "0" ]; then
