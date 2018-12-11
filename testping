@@ -3,6 +3,11 @@ red=`tput setaf 1`
 green=`tput setaf 2`
 reset=`tput sgr0`
 
+if [[ $# -eq 0 ]]; then
+  echo "Please enter filename as argument"
+  exit 0
+fi
+
 file=$1
 
 #loop through first words of each line
