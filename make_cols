@@ -1,0 +1,19 @@
+#!/bin/bash
+
+file="outtable.txt"
+
+echo -n "" > ip_list.txt
+echo -n "" > name_list.txt
+
+
+for ip in $(cut -d ',' -f1 $file); do
+  ip="${ip//\"}"
+  echo $ip >> ip_list.txt
+done
+
+readarray -t nameCol < <(cut -d, -f2 $file)
+for name in "${nameCol[@]}"; do
+  name="${name//\"}"
+  name="${name//\r}"
+  echo $name >> name_list.txt
+done
