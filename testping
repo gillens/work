@@ -1,25 +1,42 @@
 #!/bin/bash
+#special strings allow color in terminal
 red=`tput setaf 1`
 green=`tput setaf 2`
 reset=`tput sgr0`
 
 if [[ $# -eq 0 ]]; then
   echo "Please enter filename as argument"
-  exit 0
+  exit 1
 fi
 
 file=$1
 
-#loop through first words of each line
-for computer in $(cut -d ':' -f1 $file); do
-  #ping -c 1 only does 1 packet, only care about exit status not output
-  ping -c 1 $computer > /dev/null
+status_good="${green}online ${reset}"
+status_bad="${red}offline ${reset}"
+format="normal"
+if [[ $# -eq 2 && $2 = "yesnoformat" ]]; then
+  format="yesno"
+  status_good="Yes"
+  status_bad="No"
+fi
+
+#loop through first words of each line, before ' ' symbol
+for computer in $(cut -d ',' -f1 $file); do
+  computer="${computer/\"}"
+  #ping -c 1 only does 1 packet and only care about exit status not output
+  # -w 1 only waits 1 second per ping
+  ping -c 1 -w 1 $computer > /dev/null 2>&1
   result=$?
+
   status=""
   if [ $result = "0" ]; then
-    status="${green}online ${reset}"
+    status=$status_good
   else
-    status="${red}offline ${reset}"
+    status=$status_bad
   fi
-  echo -e "$computer: $status"	
+  if [ "$format" = "yesno" ]; then
+    echo -e "$status"
+  else
+    echo -e "$computer: $status"	
+  fi
 done

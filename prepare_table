@@ -1,1 +1,0 @@
-grep -v "Static Interface" intable > outtable #; mv outtable intable
