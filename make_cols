@@ -14,6 +14,9 @@ done
 readarray -t nameCol < <(cut -d, -f2 $file)
 for name in "${nameCol[@]}"; do
   name="${name//\"}"
-  name="${name//\r}"
+  char=" "
+  if ! [[ $name =~ $char ]]; then
+    name="${name%%.*}"
+  fi
   echo $name >> name_list.txt
 done

@@ -1,11 +1,11 @@
-outtable.txt: intable
+outtable: intable
 	grep -v "Static Interface" intable > outtable.txt
 	./make_cols
 
-ping: outtable.txt
+ping: outtable
 	./testping ip_list.txt
 
-yesnoformat: outtable.txt
+yesnoformat: outtable
 	./testping ip_list.txt yesnoformat > pingout.txt
 
 all: yesnoformat
